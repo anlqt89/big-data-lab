@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
 // 3. Fallback Route
 // This is critical for React Router (Single Page Apps) to work on refresh
-app.get('*', (req, res) => {
+app.get('/{*splat}', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
 });
 
