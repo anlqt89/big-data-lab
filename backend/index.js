@@ -8,7 +8,15 @@ import titleRoutes from './src/routes/titles.routes.js';
 const app = express();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-app.use(cors());
+const corsOptions = {
+  // Replace this with your actual generated Frontend domain from Railway
+  origin: 'https://https://moviesbigdatalab.up.railway.app/', 
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, // Allows cookies or authorization headers if needed
+  optionsSuccessStatus: 200 
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // 1. API Routes
