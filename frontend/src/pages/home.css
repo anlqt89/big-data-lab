@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a62127fad0095ceb97dc3fd9812baf7efc4196eae07e9a6aa3025a9ec7f0084b
-size 341
+.list-homecard{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* This is what centers the group */
+    gap: 5px;
+    width: 100%;
+    padding: 30px;
+    background-color: var(--dark-grey);
+    border-radius: 10px;
+}
+
+.container section label{
+    font-style: bold;
+    padding-left: 14px;
+    font-size: 30px;
+}

@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:549fd253cbff0c2b8be947b3af2c73b02c360b0f00d36fb9af99387c3735d746
-size 752
+import './navigation.css'
+import { NavLink } from 'react-router-dom';
+
+const Navigation = () =>{
+    return (
+        <nav className=" my-navbar navbar navbar-expand-lg container">
+                
+                <div className="navbar-nav">
+                    <NavLink className="nav-link" to="/Home">Big Data Lab</NavLink>
+                    <NavLink className="nav-link" to="/movies">Movies</NavLink>
+                    <NavLink className="nav-link" to="/trends">Trends</NavLink>
+                    <NavLink className="nav-link" to="/colaborations">Colaborations</NavLink>
+                    <NavLink className="nav-link" to="/about">About</NavLink>
+                   
+                </div>
+        </nav>
+    )
+}
+
+export default Navigation;

@@ -1,3 +1,41 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a8e6a5bd650a41b1a1fc1744fe65f1705adcac0b5c27f942c04023e62d9ad1ee
-size 891
+.navbar-expand-lg .my-navbar{
+    border-radius: 10px;
+    background-color: var(--dark-grey);
+    margin-bottom: 10px;
+    margin-top: 10px;
+    padding-left: 10px;
+    border-bottom: 1px solid var(--light-grey);
+}
+.navbar-expand-lg  .navbar-brand{
+    color:var(  --global-color-font-1);
+
+}
+
+.navbar-expand-lg .navbar-nav {
+    display: flex;
+    gap: 5px;
+}
+
+.navbar-expand-lg .navbar-nav .nav-link {
+    color: var(--bs-white); 
+    padding-left: 20px;    
+    padding-right: 20px;
+    font-weight: 500;
+}
+
+.navbar-expand-lg .navbar-nav .nav-link:hover {
+    border-radius: 15px;
+    border: 1px solid white;
+    color: var(--bs-white); 
+    padding-left: 20px;   
+    padding-right: 20px;
+    font-weight: 500;
+}
+
+.navbar-expand-lg .navbar-nav .nav-link.active {    
+    border-radius: 15px;
+    border: 1px solid white;
+    color: var(--global-color-font-1); 
+    font-weight: 700;
+}
+ 

@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b8e1c53faa4608c4014854fce01a3b6f09bb9216ab71cf703471a4103815dfe6
-size 563
+import { Analysis } from "../components/Analysis"
+
+export const Trends = ()=>{
+    return(<>
+        <div className="container text-center">
+            <div className="row align-items-start">
+                <div className="col">
+                    <h1>Trends</h1>
+                    <h4>Comming soon</h4>
+                    <div>
+                        Plans
+                    </div>
+                </div>
+                <div className="col">
+                    <Analysis></Analysis>
+                </div>
+            </div>
+        </div> 
+    </>)
+}

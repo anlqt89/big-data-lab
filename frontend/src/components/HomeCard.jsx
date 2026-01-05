@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3909924d2323c4bb134c829ca068343da13bd4c608d73b6347de0b02d106bd9c
-size 605
+import { useState } from 'react';
+import './homecard.css';
+
+export const HomeCard = ({ title, tagline, description }) => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const handleToggle = () => {
+        setIsOpen(!isOpen); 
+    };
+
+    return (
+        <div 
+            /* If isOpen is true, it adds the 'active' class */
+            className={`homecard ${isOpen ? 'active' : ''}`} 
+            onClick={handleToggle}
+        >
+            <h3>{title}</h3>
+            <span className="tagline">{tagline}</span>
+            <p className="description">{description}</p>
+        </div>
+    );
+}

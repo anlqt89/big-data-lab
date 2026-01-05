@@ -1,3 +1,55 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c707dc7c519feb6228002bc73f768b565a9a4b127485d89ba6c17497bf8de632
-size 869
+.footer {
+   padding: 60px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 40px;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 250px;
+}
+
+.footer-section h2, .footer-section h3 {
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section li {
+    margin-bottom: 8px;
+}
+
+.footer-section a {
+    color: #888;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-section a:hover {
+    color: white; /* Glow effect on hover */
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    color: #555;
+    font-size: 0.9rem;
+     border-top: 1px solid var(--light-grey);
+}
+
+.footer-content li, p{
+    font-weight: var(--font-weight-1);
+}

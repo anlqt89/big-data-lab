@@ -1,3 +1,9 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:aa0100d300a751eb2751cf6376ef13c69108506ce5c30635060252eed464367a
-size 116
+.hero-title{
+    margin-bottom: 5px;
+}
+
+.hero-p{
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 10;
+}

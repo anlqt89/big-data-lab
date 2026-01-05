@@ -1,3 +1,12 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f6fa2da0af102b55c5aac335246bef84b38c58d6868e938c38d3905c70340694
-size 299
+.sql-code-box {
+  background-color: #1e1e1e; 
+  color: #d4d4d4;       
+  overflow: hidden;  
+  padding: 10px;
+  border-radius: 8px;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  border: 1px solid #333;
+}

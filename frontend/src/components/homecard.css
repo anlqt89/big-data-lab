@@ -1,3 +1,41 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:52259cd5fbd5c8eb5d0ac1f9e794b0c2711c6cad4cd230560e26d64a76511119
-size 777
+.homecard{
+    display: flex;
+    width: 50%;
+    flex: 0 1 350px;
+    min-height: 200px;
+    padding: 10px;
+    border-radius: 20px;
+
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    transition: all 0.4s ease-in-out; 
+    overflow: hidden;
+}
+
+.homecard.active {
+    width: 60%;
+    width: 600px;
+    background-color: black;
+    border: 1px solid white;
+    color: white; /* Ensures text is readable on black background */
+}
+
+.homecard.active .tagline, 
+.homecard.active .description {
+    display: block;
+    margin-top: 10px;
+}
+
+.homecard:hover{
+    border: 1px solid white;
+    background-color: black;
+}
+
+.homecard .tagline, 
+.homecard .description {
+    display: none;
+    font-weight: var(--font-weight-1);
+}
