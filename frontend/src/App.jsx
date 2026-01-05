@@ -4,7 +4,7 @@ import { Movies } from './pages/Movies';
 import { Colaborations } from './pages/Colaborations';
 import { Trends } from './pages/Trends';
 import NavigationBar from "./components/Navigation";
-import { Footer } from "./components/footer";
+import { Footer } from "./components/Footer";
 import About from "./pages/About";
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
           <Route path="/Colaborations" element={<Colaborations />} />
           <Route path="/Trends" element={<Trends />} />
         </Routes>
-        <Footer></Footer>
+        <Footer> </Footer>
       </Router>
     )
 }
