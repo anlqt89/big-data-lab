@@ -1,3 +1,15 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f07d953f87316bba80e8315e8b978a515535f2abac9ed8e2dc4b20aae0e7fdd8
-size 502
+import pkg from 'pg';
+const { Pool } = pkg;
+import 'dotenv/config';
+
+// On Mac Homebrew, the user is usually your macOS username
+// You can find it by typing 'whoami' in your terminal
+export const pool = new Pool({
+  user: process.env.DB_USER, 
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD, // Homebrew installs usually don't have a default password
+  port: process.env.DB_PORT,
+});
+
+export const  query = (text, params) => pool.query(text, params);

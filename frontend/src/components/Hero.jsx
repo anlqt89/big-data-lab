@@ -1,3 +1,12 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:aa325722b6acaf0b8692c3ff6846b1ffd23bc3c58c2e4c86aecd67d7e62d0dc0
-size 493
+import "./hero.css"
+export const Hero = () =>{
+    return (<>
+    <div className="container">
+            <p className="hero-title">Big Data Search, Optimized</p>
+            <p className="hero-p">
+                Exploring the limits of PostgreSQL performance. I built a full-stack benchmarking engine to compare Indexed, Non-Indexed, and Materialized search patterns across massive datasets to find the ultimate balance between speed and scale.
+            </p>
+    </div>
+       
+    </>)
+}

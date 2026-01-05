@@ -1,3 +1,12 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ac35eb628099ee92f76bf894433746d74078efc034daf91aa994bf17931a6c15
-size 277
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+
+import App from './App.jsx'
+import "bootstrap/dist/css/bootstrap.min.css";
+import './index.css'
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)

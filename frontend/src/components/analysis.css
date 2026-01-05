@@ -1,3 +1,47 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:71ef0e695f9cfbb01de188e8066a0fe8ee1d3fa74485ee4dd4c9d0b8e6f8af25
-size 849
+.analysis-container {
+    max-width: 900px;
+    margin: 0 auto;
+    color: white;
+}
+
+.analysis-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    background: #1a1a1a;
+    border-radius: 12px;
+    overflow: hidden;
+}
+.insight-card h4{
+    font-size: 20px;
+}
+.analysis-table th, .analysis-table td {
+    text-align: left;
+    border-bottom: 1px solid #333;
+}
+
+.rank-1{
+    background-color: rgba(0, 255, 0, 0.1);
+}
+.rank-2{
+    background-color: rgba(32, 145, 238, 0.1);
+}
+.rank-3{
+    background-color:  #444; ;
+}
+
+.rank-gain-1 { color: #4caf50; }
+.rank-gain-2 { color: #ffeb3b; }
+.rank-gain-2 { color: #ffffff; }
+
+.insight-card {
+    background: #111;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border-left: 4px solid #444;
+}
+
+.insight-card.highlight {
+    border-left-color: #4caf50;
+}
