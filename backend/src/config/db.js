@@ -5,7 +5,7 @@ import 'dotenv/config';
 const nodeMode = process.env.NODE_ENV;
 
 // Local Environment
-const dbConfig = {
+let dbConfig = {
   user: process.env.DB_LOCAL_USER, 
   host: process.env.DB_LOCAL_HOST,
   database: process.env.DB_LOCAL_NAME,
