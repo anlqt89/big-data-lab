@@ -36,10 +36,12 @@ export const Movies = () => {
         let type = activeMode === "meterialized" ?  "meterialized" : "standard";
         try {
             const url = `/api/titles?key=${encodeURIComponent(searchKey)}&limit=${limit}&tconst=${cursor}&useIndex=${useIndex}&type=${type}`;
+            console.log(url)
             const response = await fetch(url);
             const json = await response.json();
 
             setResults(json);
+            console.log("searchMode: ", searchMode)
 
             setBenchmarks(prev => ({
                 ...prev,
