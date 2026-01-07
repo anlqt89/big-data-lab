@@ -25,3 +25,4 @@ dist-ssr
 *.env
 title.actors.csv
 title.basics.tsv
+*.sh

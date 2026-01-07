@@ -32,11 +32,9 @@ export const Movies = () => {
         }
 
         let useIndex = activeMode === "index";
-
         let type = activeMode === "meterialized" ?  "meterialized" : "standard";
         try {
             const url = `/api/titles?key=${encodeURIComponent(searchKey)}&limit=${limit}&tconst=${cursor}&useIndex=${useIndex}&type=${type}`;
-            console.log(url)
             const response = await fetch(url);
             const json = await response.json();
 
@@ -173,10 +171,10 @@ export const Movies = () => {
                             <tbody>
                                 {results?.data?.map((movie, i) => (
                                     <MovieCard 
-                                        key={movie.tconst} // Unique key for React
+                                        key={movie.tconst} 
                                         index={currentPageIndex*limit + i + 1}
                                         tconst={movie.tconst}
-                                        title={movie.primarytitle} // Mapping API's primarytitle to title prop
+                                        title={movie.primarytitle} 
                                         type={movie.titletype || "N/A"}
                                         genres={movie.genres || "N/A"}
                                         year={movie.startyear}
