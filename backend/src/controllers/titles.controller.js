@@ -17,8 +17,6 @@ export async function listTitles(req, res) {
     const targetColumn = type === "standard" ? "primarytitle" : "search_text";
     const useIndex = (req.query.useIndex ?? "false").toString();
 
-    console.log("Table Name: ", tablenName)
-    console.log("Column: ", targetColumn)
     let sql = `
         SELECT tconst, primarytitle, startyear, titletype, genres
         FROM ${tablenName}
@@ -38,9 +36,6 @@ export async function listTitles(req, res) {
     }
 
     const result = await client.query(sql, params);
-    
-    console.log("=== QUERY DEBUG ===");
-
 
     await client.query("COMMIT");
     const duration = (performance.now() - startTime).toFixed(2);
