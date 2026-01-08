@@ -3,7 +3,6 @@ const { Pool } = pkg;
 import 'dotenv/config';
 
 const nodeMode = process.env.NODE_ENV;
-console.log(nodeMode)
 // Local Environment
 let dbConfig = {
   user: process.env.DB_LOCAL_USER, 
@@ -38,5 +37,4 @@ export const pool = new Pool({
   connectionTimeoutMillis: 5000,
 });
 
-console.log(dbConfig)
 export const query = (text, params) => pool.query(text, params);
