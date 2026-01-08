@@ -1,5 +1,3 @@
-# 🎬 Movies Lab
-
 <table>
   <tr>
     <td width="200" valign="top">
