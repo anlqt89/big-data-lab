@@ -1,0 +1,18 @@
+# Dependencies (Docker will install its own)
+node_modules/
+npm-debug.log
+
+# Logs
+*.log
+setup_validation.log
+
+# Git
+.git
+.gitignore
+
+# OS files
+.DS_Store
+
+# Environment files (handled by docker-compose instead)
+.env
+.env.local
