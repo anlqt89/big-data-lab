@@ -1,10 +1,21 @@
 # 🎬 Movies Lab
 
-<img src="/frontend/public/logo.svg" alt="Movies Lab Logo" width="200">
-
-**Movies Lab** is a high-performance web application built to explore and visualize cinema trends through the lens of big data. This project demonstrates the ability to handle extensive datasets, optimize frontend performance, and deliver a clean user experience for data exploration.
-
-🚀 **Live Demo:** [movies.talentalk.xyz](http://movies.talentalk.xyz/)
+<table>
+  <tr>
+    <td width="200" valign="top">
+      <img src="frontend/public/icon.png" alt="Movies Lab Logo" width="200">
+    </td>
+    <td>
+      <h1>Movies Lab</h1>
+      <p>
+        <strong>Movies Lab</strong> is a high-performance web application built to explore and visualize cinema trends through the lens of big data. This project demonstrates the ability to handle extensive datasets, optimize frontend performance, and deliver a clean user experience for data exploration.
+      </p>
+      <p>
+        🚀 <strong>Live Demo:</strong> <a href="http://movies.talentalk.xyz/">movies.talentalk.xyz</a>
+      </p>
+    </td>
+  </tr>
+</table>
 
 ---
 
