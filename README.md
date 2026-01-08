@@ -43,8 +43,7 @@ This project serves as a "lab" for implementing several core big data and engine
 To run the Lab locally, follow these steps:
 
 1. **Clone the repository:**
-   ```bash
-   git clone [https://github.com/anlqt89/big-data-lab.git](https://github.com/anlqt89/big-data-lab.git)
+   git clone https://github.com/anlqt89/big-data-lab.git
 
 2. **Run with Docker**
    docker compose up -d --build
@@ -54,6 +53,5 @@ To run the Lab locally, follow these steps:
 -  **Backend API: http://localhost:5001
 
 -  **Database: Internal port 5432
-
 To run directly to Mac:
    ./setup.sh
