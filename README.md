@@ -1,6 +1,6 @@
 # 🎬 Movies Lab
 
-![Movies Lab Logo](/public/logo.svg)
+![Movies Lab Logo](/frontend/public/logo.svg)
 
 **Movies Lab** is a high-performance web application built to explore and visualize cinema trends through the lens of big data. This project demonstrates the ability to handle extensive datasets, optimize frontend performance, and deliver a clean user experience for data exploration.
 
@@ -44,4 +44,16 @@ To run the Lab locally, follow these steps:
 
 1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/your-username/movies-lab.git](https://github.com/your-username/movies-lab.git)
+   git clone [https://github.com/anlqt89/big-data-lab.git](https://github.com/anlqt89/big-data-lab.git)
+
+2. **Run with Docker**
+   docker compose up -d --build
+3. **Access the Application**
+- **Frontend UI: http://localhost:5173
+
+-  **Backend API: http://localhost:5001
+
+-  **Database: Internal port 5432
+
+To run directly to Mac:
+   ./setup.sh
