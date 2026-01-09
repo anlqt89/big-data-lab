@@ -1,19 +1,10 @@
-<table>
-  <tr>
-    <td width="200" valign="top">
-      <img src="frontend/public/icon.png" alt="Movies Lab Logo" width="200">
-    </td>
-    <td>
-      <h1>Movies Lab</h1>
-      <p>
-        <strong>Movies Lab</strong> is a high-performance web application built to explore and visualize cinema trends through the lens of big data. This project demonstrates the ability to handle extensive datasets, optimize frontend performance, and deliver a clean user experience for data exploration.
-      </p>
-      <p>
-        🚀 <strong>Live Demo:</strong> <a href="http://movies.talentalk.xyz/">movies.talentalk.xyz</a>
-      </p>
-    </td>
-  </tr>
-</table>
+# 🎬 Movies Lab
+
+![Movies Lab Logo](/frontend/public/icon.svg)
+
+**Movies Lab** is a high-performance web application built to explore and visualize cinema trends through the lens of big data. This project demonstrates the ability to handle extensive datasets, optimize frontend performance, and deliver a clean user experience for data exploration.
+
+🚀 **Live Demo:** [movies.talentalk.xyz](http://movies.talentalk.xyz/)
 
 ---
 
@@ -23,6 +14,8 @@ This project serves as a "lab" for implementing several core big data and engine
 
 * **Efficient Data Fetching:** Implements optimized API integration to handle large volumes of movie metadata in real-time.
 * **State Management & Scalability:** Built with **React** and **Vite** to ensure a fast, responsive UI even when filtering through thousands of data points.
+* **Data Visualization:** (If applicable, e.g., "Uses D3.js/Chart.js to visualize genre distribution over time").
+* **Performance Optimization:** Utilizes lazy loading and asset optimization (SVG) to maintain high Lighthouse scores and low latency.
 
 ---
 
@@ -35,26 +28,13 @@ This project serves as a "lab" for implementing several core big data and engine
 
 ---
 
-## 🗄️ Database Tables & Size
-
-### `titles`
-- **Rows:** 9,098,722  
-- **Description:**  
-  Stores core movie and TV title metadata, including identifiers, names, release years, and searchable text fields.
-
-### `principals`
-- **Rows:** 20,112,641  
-- **Description:**  
-  Contains cast and crew relationships for each title, enabling queries such as actors, directors, and other contributors per movie.
-
-
 ## 💻 Tech Stack
 
 -   **Frontend:** [React.js](https://reactjs.org/)
 -   **Build Tool:** [Vite](https://vitejs.dev/)
 -   **Data Source:** [TMDB API / Custom Dataset]
 -   **Icons & Logos:** Custom SVG / PNG
--   **Deployment:** Hetzner
+-   **Deployment:** Vercel / Netlify
 
 ---
 
@@ -64,22 +44,20 @@ To run the Lab locally, follow these steps:
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/anlqt89/big-data-lab.git
-   ```
+   git clone [https://github.com/anlqt89/big-data-lab.git](https://github.com/anlqt89/big-data-lab.git)
 
-3. Installation and Running Apps:
-   ```bash
-   #On container
+2. **Run with Docker**
    docker compose up -d --build
-   ```
-   ```bash
-   #On Mac
+3. **Access the Application**
+- **Frontend UI: http://localhost:5173
+
+-  **Backend API: http://localhost:5001
+
+-  **Database: Internal port 5432
+
+To run directly to Mac:
    ./setup.sh
-   ```
-   
-4. **Access the Application**
-- Frontend UI: http://localhost:5173
 
-- Backend API: http://localhost:5001
+## 🎬 Demo
 
-- Database: Internal port 5432
+![Demo](./public/BigDataLab.gif)
