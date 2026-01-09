@@ -1,7 +1,10 @@
+import { SetFavicon } from '../components/SetFavicon';
+import { FAVICON_TITLES } from '../global/constants';
 import './about.css';
 
 const About = () => {
 
+  SetFavicon(`${FAVICON_TITLES.BIG_DATA_LAB} | ${FAVICON_TITLES.ABOUT}`);
   
   return (<>
     <div className="about-container">

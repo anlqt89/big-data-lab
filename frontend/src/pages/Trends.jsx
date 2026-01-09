@@ -1,6 +1,9 @@
 import { Analysis } from "../components/Analysis"
+import { SetFavicon } from "../components/SetFavicon"
+import { FAVICON_TITLES } from "../global/constants"
 
 export const Trends = ()=>{
+    SetFavicon(`${FAVICON_TITLES.BIG_DATA_LAB} | ${FAVICON_TITLES.TRENDS}`);
     return(<>
         <div className="container text-center">
             <div className="row align-items-start">

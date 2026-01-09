@@ -3,8 +3,11 @@ import { Analysis } from "../components/Analysis";
 import { MovieCard } from "../components/MovieCard";
 import { Pagination } from "../components/Pagination";
 import './movies.css'
+import { SetFavicon } from "../components/SetFavicon";
+import { FAVICON_TITLES } from "../global/constants";
 export const Movies = () => {
-    
+    SetFavicon(`${FAVICON_TITLES.BIG_DATA_LAB} | ${FAVICON_TITLES.MOVIES}`);
+
     const [searchKey, setSearchKey] = useState("");
     const [limit, setLimit] = useState("10");
     const [results, setResults] = useState([]);

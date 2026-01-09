@@ -1,6 +1,10 @@
 import { Analysis } from "../components/Analysis"
+import { SetFavicon } from "../components/SetFavicon";
+import { FAVICON_TITLES } from "../global/constants";
 
 export const Colaborations =() =>{
+    SetFavicon(`${FAVICON_TITLES.BIG_DATA_LAB} | ${FAVICON_TITLES.COLABORATIONS}`);
+
     return(
        
         <div className="container text-center">

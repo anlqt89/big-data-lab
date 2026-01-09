@@ -1,8 +1,11 @@
 import { Hero } from "../components/Hero";
 import { HomeCard } from "../components/HomeCard";
+import { SetFavicon } from "../components/SetFavicon";
 import { features } from "../data/FeatureData";
+import { FAVICON_TITLES } from "../global/constants";
 import './home.css'
 const Home = ()=>{
+    SetFavicon(`${FAVICON_TITLES.BIG_DATA_LAB} | ${FAVICON_TITLES.HOME}`);
     return (
         <>
             <div className="container">
