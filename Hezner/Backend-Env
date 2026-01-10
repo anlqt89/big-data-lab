@@ -1,8 +1,0 @@
-NODE_ENV=production
-PORT=3000
-
-DB_USER=postgres
-DB_HOST=imdb-app
-DB_NAME=imdb_app
-DB_PASSWORD=Hall2559docker
-DB_PORT=5432
