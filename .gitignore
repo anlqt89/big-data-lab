@@ -31,7 +31,5 @@ title.basics.tsv
 *.sql
 *.env
 import_actors.load
-*.yml
-Dockerfile
 postgres_data
 *.tmp

@@ -1,0 +1,20 @@
+name: Docker Build Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Backend
+        run: docker build ./backend --file ./backend/Dockerfile -t movie-backend:test
+
+      - name: Build Frontend
+        run: docker build ./frontend --file ./frontend/Dockerfile -t movie-frontend:test
