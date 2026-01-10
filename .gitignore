@@ -34,3 +34,4 @@ import_actors.load
 *.yml
 Dockerfile
 postgres_data
+*.tmp

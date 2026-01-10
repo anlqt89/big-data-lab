@@ -48,6 +48,13 @@ To run the Lab locally, follow these steps:
 
 2. **Run with Docker**
    docker compose up -d --build
+
+   #copy data into database container and restore it
+   docker cp ./Data/imdp_app imdb_db:/tmp/imdp_app   
+
+   #Restore data
+   docker exec -it imdb_db pg_restore -U username -d imdp_app --no-owner --role=postgres -Fd /tmp/imdp_app
+
 3. **Access the Application**
 - **Frontend UI: http://localhost:5173
 
@@ -55,8 +62,8 @@ To run the Lab locally, follow these steps:
 
 -  **Database: Internal port 5432
 
-To run directly to Mac:
-   ./setup.sh
+To setup directly to Mac:
+   ./scripts/setup.sh
 
 ## 🎬 Demo
 

@@ -9,7 +9,7 @@ export DB_USER="anlam"
 export DB_PASS=""
 export DB_HOST="localhost"
 export DB_PORT="5432"
-BACKUP_PATH="./Data/imdp_app"
+BACKUP_PATH="../Data/imdp_app"
 
 # Function to write to log file without ANSI colors
 log_to_file() {
@@ -29,9 +29,9 @@ sleep 1
 echo "🚀 Starting Movies Lab Local Installation..." ""
 echo "📝 Checking for .env files..." ""
 
-if [ ! -f "backend/.env" ]; then
+if [ ! -f "../backend/.env" ]; then
     echo "🏗️ Creating backend/.env with default values..." ""
-    cat <<EOT >> backend/.env
+    cat <<EOT >> ../backend/.env
 DB_LOCAL_USER=$DB_USER
 DB_LOCAL_PASSWORD=$DB_PASS
 DB_LOCAL_NAME=$DB_NAME
@@ -39,9 +39,9 @@ DB_LOCAL_HOST=$DB_HOST
 DB_LOCAL_PORT=$DB_PORT
 PORT=$BACKEND_PORT
 EOT
-    echo "✅ backend/.env created." ""
+    echo "✅ ../backend/.env created." ""
 else
-    echo "ℹ️  backend/.env already exists, skipping." ""
+    echo "ℹ️  ../backend/.env already exists, skipping." ""
 fi
 
 echo "🚀 Starting Movies Lab Local Installation..." ""
@@ -63,13 +63,9 @@ createdb -U $DB_USER $DB_NAME 2>/dev/null || echo "⚠️ Database already exist
 
 echo "🧐 Validating database..." ""
 if ! validate_database; then
-    # Restore Backup (CRITICAL FIX)
     echo "🔄 Restoring IMDB data from folder: $BACKUP_PATH..." "" ""
 
     if [ -d "$BACKUP_PATH" ]; then
-        # -d: target database
-        # -U: username
-        # --clean: drops old tables before importing (prevents errors)
         pg_restore -U $DB_USER -d $DB_NAME --clean --if-exists "$BACKUP_PATH"
         echo "✅ Data restored successfully." ""
     else
@@ -84,7 +80,7 @@ fi
 # 4. Launching the Lab
 echo "🌟 Setup Complete! Starting services..."  
 
-# We use '&' to run processes in the background
+# run processes in the background
 cd backend && npm run dev & 
 cd frontend && npm run dev &
 
