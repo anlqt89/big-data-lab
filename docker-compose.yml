@@ -1,52 +1,24 @@
 services:
-  db:
-    image: postgres:15-alpine
-    platform: linux/arm64
-    container_name: imdb_db
-    environment:
-      POSTGRES_USER: username
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: imdb_app
-    ports:
-      - "5432:5432"
-    volumes:
-     - db_data:/var/lib/postgresql/data
-     - ./Data/imdp_app:/docker-entrypoint-initdb.d
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U username -d imdb_app"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-
   backend:
-    build: ./backend
-    platform: linux/arm64
-    container_name: imdb_backend
-    depends_on:
-      db:
-        condition: service_healthy 
-    environment:
-      DB_LOCAL_USER: username
-      DB_LOCAL_HOST: db
-      DB_LOCAL_NAME: imdb_app
-      DB_LOCAL_PASSWORD: password
-      DB_LOCAL_PORT: 5432
-      PORT: 5001
-    ports:
-      - "5001:5001"
+    build:
+      context: ./backend
+    container_name: backend
+    env_file:
+      - .env # Keep secrets in a root .env on Hetzner
+    networks:
+      - appnet
+    restart: unless-stopped
 
   frontend:
-    build: ./frontend
-    platform: linux/arm64
-    container_name: imdb_frontend
+    build:
+      context: ./frontend
+    container_name: frontend
     ports:
-      - "5173:5173"
-    environment:
-      - VITE_PORT=5173
-      - VITE_API_BASE_URL=http://backend:5001 
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
+      - "80:80" # Map server port 80 to the frontend container
+    networks:
+      - appnet
+    restart: unless-stopped
 
-volumes:
-  db_data:
+networks:
+  appnet:
+    driver: bridge # Use 'bridge' if it's not pre-existing on the server
