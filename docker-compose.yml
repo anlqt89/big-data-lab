@@ -4,7 +4,7 @@ services:
       context: ./backend
     container_name: backend
     env_file:
-      - .env # Keep secrets in a root .env on Hetzner
+      - ./backend/.env # Keep secrets in a root .env on Hetzner
     networks:
       - appnet
     restart: unless-stopped
