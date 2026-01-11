@@ -11,7 +11,6 @@ export DB_HOST="localhost"
 export DB_PORT="5432"
 BACKUP_PATH="../Data/imdp_app"
 
-
 # Function to write to log file without ANSI colors
 log_to_file() {
     echo -e "$1" | sed 's/\x1b\[[0-9;]*m//g'""
