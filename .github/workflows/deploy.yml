@@ -20,13 +20,20 @@ jobs:
           key: ${{ secrets.HETZNER_SSH_KEY }}
           script: |
             cd /root/big-data-lab/
-            echo $PWD
+            echo "-----------------"
+            echo "At Dir:  $PWD
+            echo "-----------------"
+
+            git log -1 --oneline
 
             git fetch --all
             git reset --hard origin/main
 
             docker compose up -d --build
- 
+
+            docker network connect big-data-lab_appnet imdb-app || true
+            
             docker image prune -f
 
+            docker compose ps
             
