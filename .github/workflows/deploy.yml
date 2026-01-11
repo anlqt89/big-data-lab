@@ -21,7 +21,7 @@ jobs:
           script: |
             cd /root/big-data-lab/
             echo "-----------------"
-            echo "At Dir:  $PWD
+            echo "At Dir:  $PWD"
             echo "-----------------"
 
             git log -1 --oneline
