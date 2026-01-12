@@ -1,6 +1,6 @@
 # 🎬 Movies Lab
 
-![Movies Lab Logo](/frontend/public/icon.svg)
+<img src="/frontend/public/icon.png" alt="Movies Lab Logo" width="100">
 
 **Movies Lab** is a high-performance web application built to explore and visualize cinema trends through the lens of big data. This project demonstrates the ability to handle extensive datasets, optimize frontend performance, and deliver a clean user experience for data exploration.
 
