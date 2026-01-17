@@ -1,8 +1,10 @@
 # 🎬 Movies Lab
 
-<img src="/frontend/public/icon.png" alt="Movies Lab Logo" width="100">
+<img src="/frontend/public/icon.png" alt="Movies Lab Logo" width="100"> 
 
 **Movies Lab** is a high-performance web application built to explore and visualize cinema trends through the lens of big data. This project demonstrates the ability to handle extensive datasets, optimize frontend performance, and deliver a clean user experience for data exploration.
+
+![Demo](./public/BigDataLab.gif)
 
 🚀 **Live Demo:** [movies.talentalk.xyz](http://movies.talentalk.xyz/)
 
@@ -65,6 +67,3 @@ To run the Lab locally, follow these steps:
 To setup directly to Mac:
    ./scripts/setup.sh
 
-## 🎬 Demo
-
-![Demo](./public/BigDataLab.gif)
