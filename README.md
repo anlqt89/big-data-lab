@@ -4,7 +4,7 @@
 
 **Movies Lab** is a high-performance web application built to explore and visualize cinema trends through the lens of big data. This project demonstrates the ability to handle extensive datasets, optimize frontend performance, and deliver a clean user experience for data exploration.
 
-![Demo](./public/BigDataLab.gif)
+![Demo](./public/big-data-lab.gif)
 
 🚀 **Live Demo:** [movies.talentalk.xyz](http://movies.talentalk.xyz/)
 
