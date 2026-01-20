@@ -16,7 +16,7 @@ services:
       context: ./frontend
     container_name: frontend
     ports:
-      - "80:80" #HOST_PORT : CONTAINER_PORT
+      - "8080:80" #HOST_PORT : CONTAINER_PORT
     networks:
       - appnet
     restart: unless-stopped
