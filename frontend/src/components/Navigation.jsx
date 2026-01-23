@@ -7,11 +7,11 @@ const Navigation = () =>{
                 
                 <div className="navbar-nav">
                     <NavLink className="nav-link" to="/Home">Big Data Lab</NavLink>
-                    <NavLink className="nav-link" to="/movies">Movies</NavLink>
+                    <NavLink className="nav-link" to="/indexing">Indexing</NavLink>
                     <NavLink className="nav-link" to="/trends">Trends</NavLink>
                     <NavLink className="nav-link" to="/colaborations">Colaborations</NavLink>
                     <NavLink className="nav-link" to="/about">About</NavLink>
-                   
+                     {/* <NavLink className="nav-link" to="/portfolio">Portfolio</NavLink> */}
                 </div>
         </nav>
     )

@@ -10,5 +10,7 @@ export const FAVICON_TITLES = {
     TRENDS: "Trends",
     COLABORATIONS: "Colaborations",
     ABOUT: "About",
-    BIG_DATA_LAB: TITLES.BIG_DATA_LAB
+    BIG_DATA_LAB: TITLES.BIG_DATA_LAB,
+    PORTFOLIO: "Porfolio",
+    CONTACT: "Contact"
 }

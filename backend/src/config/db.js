@@ -32,7 +32,6 @@ if (nodeMode === 'production'){
 }
 
 console.log("---dbConfig---")
-console.log(dbConfig)
 // 2. Create the pool using that config
 export const pool = new Pool({
   ...dbConfig,

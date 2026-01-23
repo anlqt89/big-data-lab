@@ -4,8 +4,14 @@ on:
   push:
     branches: [ main, dev]
   pull_request:
+<<<<<<< HEAD
     branches: [ main, ev]
 
+=======
+    branches: [ main ]
+  workflow_dispatch:
+  
+>>>>>>> b88c795fc7811f412ffb25e94cdf8d6b48dded25
 jobs:
   build:
     runs-on: ubuntu-latest

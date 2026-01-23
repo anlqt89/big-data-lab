@@ -3,6 +3,7 @@ name: Deploy to Hetzner
 on:
   push:
     branches: [ main ] 
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -12,21 +13,27 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1.0.3 # Use a versioned tag for stability
+        uses: appleboy/ssh-action@v1.0.3 
         with:
           host: ${{ secrets.HETZNER_HOST }}
           username: ${{ secrets.HETZNER_USER }}
           key: ${{ secrets.HETZNER_SSH_KEY }}
           script: |
-            # Navigate to the project
             cd /root/big-data-lab/
-            
-            # Force pull to ensure we match GitHub exactly
+            echo "-----------------"
+            echo "At Dir:  $PWD"
+            echo "-----------------"
+
+            git log -1 --oneline
+
             git fetch --all
             git reset --hard origin/main
-            
-            # Rebuild and restart containers
+
             docker compose up -d --build
+
+            docker network connect big-data-lab_appnet imdb-app || true
             
-            # Remove old, unused images to save disk space
             docker image prune -f
+
+            docker compose ps
+            
