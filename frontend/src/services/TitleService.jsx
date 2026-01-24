@@ -29,9 +29,6 @@ export const TitlesService = {
 
   searchTitles: async (mode, params) => {
     const queryString = new URLSearchParams(params).toString();
-    console.log("sv: searchTitles: ", mode)
-     console.log("sv: params: ", params)
-    console.log(`${BASE_URL}/search?${queryString}`)
     const response = await fetch(`${BASE_URL}/search?mode=${mode}&${queryString}`);
     if (!response.ok) throw new Error('Search failed');
     return await response.json();

@@ -11,81 +11,71 @@ import { TitlesService } from "../services/TitleService";
 export const Indexes = () => {
     SetFavicon(`${FAVICON_TITLES.BIG_DATA_LAB} | ${FAVICON_TITLES.MOVIES}`);
     
-    // 1. Get Metadata from Context
     const { genres, titleTypes, searchModes, loading: loading_md } = useTitlesMetadata();
 
-    // 2. State Management
     const limit = 10;
     const [loading, setLoading] = useState(false);
     const [results, setResults] = useState({ data: [], hasNext: false, nextCursor: null });
-    const [filters, setFilters] = useState({ titles: '' });
+    const [filters, setFilters] = useState({ title: '' });
     const [searchMode, setSearchMode] = useState(""); 
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
-    const [history, setHistory] = useState([""]); // Stack to store cursors for pagination
+    const [history, setHistory] = useState([""]); 
     const [benchmarks, setBenchmarks] = useState({ sequential: 0, gin: 0, gin_mat: 0 });
     const [strategy, setStrategy] = useState("Sequential Scan")
-    // 4. Fetch Logic
-    const fetchData = useCallback(async (cursor = "", isNewSearch = false, modeOverride) => {
-    const activeMode = modeOverride || searchMode;
-    if (!activeMode) return;
 
-    console.log("===", activeMode, filters, cursor, limit);
+    const fetchData = useCallback(async (cursor = "", modeOverride) => {
+        const activeMode = modeOverride || searchMode;
+        if (!activeMode) return;
 
-    setLoading(true);
-    try {
-        const startTime = performance.now();
+        setLoading(true);
+        try {
+            const startTime = performance.now();
 
-        const response = await TitlesService.searchTitles(activeMode, {
-        ...filters,
-        cursor,
-        limit
-        });
+            const response = await TitlesService.searchTitles(activeMode, {
+            ...filters,
+            cursor,
+            limit
+            });
 
-        const duration = performance.now() - startTime;
+            const duration = performance.now() - startTime;
 
-        setBenchmarks(prev => ({
-        ...prev,
-        [activeMode]: duration.toFixed(2)
-        }));
+            setBenchmarks(prev => ({
+            ...prev,
+            [activeMode]: duration.toFixed(2)
+            }));
 
-        setStrategy(response.strategyUsed);
+            setStrategy(response.strategyUsed);
 
-        setResults({
-        data: response.results || [],
-        hasNext: response.count === limit,
-        nextCursor: response.nextCursor ?? null
-        });
-    } finally {
-        setLoading(false);
-    }
-    }, [searchMode, filters]);
+            setResults({
+                data: response.results || [],
+                hasNext: response.count === limit,
+                nextCursor: response.nextCursor ?? null
+            });
+        } finally {
+            setLoading(false);
+        }
+    }, [setSearchMode, filters]);
 
 
-    // 3. Set default search mode once metadata loads
     useEffect(() => {
-    if (!searchModes?.SEQUENTIAL) return;
+    if (!searchModes?.GIN_MAT) return;
 
-    const mode = searchModes.SEQUENTIAL;
-    setSearchMode(mode);
-    fetchData("", true, mode); // 👈 pass explicitly
+        const mode = searchModes.GIN;
+        setSearchMode(mode);
+        fetchData("", mode); 
     }, [searchModes]);
 
-    // 5. Event Handlers
     const handleSearch = (e) => {
         e.preventDefault();
         const mode = e.nativeEvent.submitter.name;
 
         setSearchMode(mode);
-        fetchData("", true, mode);
+        fetchData("", mode);
         };
-
-    const handleChange = (e) => {
-        setFilters({ titles: e.target.value });
-    };
 
     const handleNext = () => {
         if (results?.nextCursor) {
-            const newCursor = results.nextCursor; // Adjust based on your API response structure
+            const newCursor = results.nextCursor; 
             const newHistory = [...history, newCursor];
             setHistory(newHistory);
             setCurrentPageIndex(prev => prev + 1);
@@ -117,9 +107,16 @@ export const Indexes = () => {
                             type="text"
                             className="form-control"
                             placeholder="Search movies..."
-                            onChange={handleChange}
+                            value={filters.title}
+                            onChange={(e) => {
+                                const val = e.target.value;
+                                setFilters(prev => ({ 
+                                    ...prev, 
+                                    title: val 
+                                }));
+                            }}
                         />
-                        {/* Use the keys from your searchModes metadata to match buttons */}
+        
                         <button className="btn btn-dark" name={searchModes?.SEQUENTIAL} disabled={loading}>
                             {loading && searchMode === searchModes?.SEQUENTIAL ? (
                                 <span className="spinner-border spinner-border-sm"></span>
@@ -176,7 +173,7 @@ export const Indexes = () => {
                         timeSeq={benchmarks.sequential} 
                         timeGin={benchmarks.gin} 
                         timeGinMat={benchmarks.gin_mat} 
-                        sKey={filters.titles}
+                        sKey={filters.title}
                         mode={searchMode}
                     />
                 </div>
