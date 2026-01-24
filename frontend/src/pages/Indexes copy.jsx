@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Analysis } from "../components/Analysis";
 import { MovieCard } from "../components/MovieCard";
 import { Pagination } from "../components/Pagination";
-import './indexing.css'
+import './indexes.css'
 import { SetFavicon } from "../components/SetFavicon";
 import { FAVICON_TITLES } from "../global/constants";
 export const Indexing = () => {
