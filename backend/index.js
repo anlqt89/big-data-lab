@@ -3,8 +3,7 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
-import titleRoutes from "./src/routes/titles.routes.js";
-
+import titleRoute from "./src/routes/titlesRoute.js";
 const app = express();
 
 const PORT = Number(process.env.PORT || 3000);
@@ -18,15 +17,16 @@ app.use(
   })
 );
 
-// Parse JSON bodies
 app.use(express.json());
 
+//Help APIs
 app.get("/api/health", (req, res) => {
   res.json({ ok: true });
 });
 
 
-app.use("/api/titles", titleRoutes);
+//#titles Apis
+app.use("/api/titles/", titleRoute);
 
 
 app.use("/api", (req, res) => {
