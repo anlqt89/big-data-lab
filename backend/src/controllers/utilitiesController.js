@@ -4,8 +4,16 @@ import { TITLE_TYPES } from "../constants/titlesType.js";
 
 export const getSearchOptions = (req, res) => {
     res.json({
-         exampleUrl: "/api/titles/search?mode=gin&title=Matrix&titletype=movie",
-        availableModes: {
+        exampleUrl: `api/titles/search?
+                        mode=gin
+                        &titles=sheldo
+                        n&cursor=
+                        &limit=10
+                        &genres=Comedy
+                        &titletype=tvSeries
+                        &fromYear=1977
+                        &toYear=2000`,
+        mode: {
             type: "string",
             pattern: TITLES_SEARCH_MODES
         },

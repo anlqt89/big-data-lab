@@ -10,7 +10,6 @@ export function buildQuery(baseSql, filterDefinitions, limit) {
     });
 
     const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
-    
     return {
         sql: `${baseSql} ${whereClause} ORDER BY tconst ASC LIMIT ${limit}`,
         values

@@ -11,7 +11,7 @@ import { TitlesService } from "../services/TitleService";
 export const Indexes = () => {
     SetFavicon(`${FAVICON_TITLES.BIG_DATA_LAB} | ${FAVICON_TITLES.MOVIES}`);
     
-    const { genres, titleTypes, searchModes, loading: loading_md } = useTitlesMetadata();
+    const { genres, titleTypes, searchModes } = useTitlesMetadata();
 
     const limit = 10;
     const [loading, setLoading] = useState(false);
@@ -21,7 +21,9 @@ export const Indexes = () => {
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
     const [history, setHistory] = useState([""]); 
     const [benchmarks, setBenchmarks] = useState({ sequential: 0, gin: 0, gin_mat: 0 });
-    const [strategy, setStrategy] = useState("Sequential Scan")
+    const [strategy, setStrategy] = useState("Sequential Scan");
+    const [queryPlan, setQueryPlan] = useState();
+
 
     const fetchData = useCallback(async (cursor = "", modeOverride) => {
         const activeMode = modeOverride || searchMode;
@@ -40,17 +42,20 @@ export const Indexes = () => {
             const duration = performance.now() - startTime;
 
             setBenchmarks(prev => ({
-            ...prev,
-            [activeMode]: duration.toFixed(2)
+                ...prev,
+                [activeMode]: duration.toFixed(2)
             }));
 
             setStrategy(response.strategyUsed);
+            setQueryPlan(response.plan);
 
             setResults({
                 data: response.results || [],
                 hasNext: response.count === limit,
                 nextCursor: response.nextCursor ?? null
             });
+
+
         } finally {
             setLoading(false);
         }
@@ -169,13 +174,16 @@ export const Indexes = () => {
                     />
                 </div>
                 <div className="col right-col">
-                    <Analysis 
-                        timeSeq={benchmarks.sequential} 
-                        timeGin={benchmarks.gin} 
-                        timeGinMat={benchmarks.gin_mat} 
-                        sKey={filters.title}
-                        mode={searchMode}
-                    />
+                    {queryPlan &&
+                        <Analysis 
+                            timeSeq={benchmarks.sequential } 
+                            timeGin={benchmarks.gin} 
+                            timeGinMat={benchmarks.gin_mat} 
+                            sKey={filters.title}
+                            mode={searchMode}
+                            queryPlan = {queryPlan}
+                        />
+                    }
                 </div>
             </div>
         </div>

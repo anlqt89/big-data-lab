@@ -27,7 +27,7 @@ export const titlesSearch = async (req, res) => {
     const client = await pool.connect();
 
     try {
-        // 1. Set Postgres Execution Environment
+        
         if (cleanMode === 'sequential') {
             await client.query("SET enable_indexscan = off;");
             await client.query("SET enable_bitmapscan = off;");
@@ -36,23 +36,20 @@ export const titlesSearch = async (req, res) => {
             await client.query("SET enable_bitmapscan = on;");
         }
 
-        // 2. Get the "Plan" from the Strategy
         const plan = strategy.getPlan(cleanFilters);
-        console.log("PLAN: ", plan)
-        // 3. Generate secure SQL and Values array using the utility
         const { sql, values } = buildQuery(plan.baseSql, plan.filterDefs, plan.limit);
-        console.log("sql: ", sql)
-        console.log("values: ", values)
 
-        // 4. Benchmark and Execute
         const startTime = performance.now();
-        const result = await client.query(sql, values); // Pass the built values array
+        const result = await client.query(sql, values); 
         const endTime = performance.now();
-
+        
         res.json({
             executionTime: `${(endTime - startTime).toFixed(2)}ms`,
+            plan: plan,
             strategyUsed: strategy.label,
             count: result.rowCount,
+            hasNext: result.count >= Number(plan.limit),
+            nextCursor: result.rowCount > 0 ? result.rows[result.rowCount - 1].tconst : null,
             results: result.rows,
         });
 

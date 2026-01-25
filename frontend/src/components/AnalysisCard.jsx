@@ -1,59 +1,71 @@
-export const AnalysisCard = ({timeNoIndex, timeIndex, timeMat, sKey, mode}) => {
-    const keyword = sKey || "";
-   
-    if (timeNoIndex === 0 && timeIndex === 0 && timeMat === 0) {
+import { useTitlesMetadata } from "../context/TitleMetaDataProvider";
+
+export const AnalysisCard = ({ timeSeq, timeGin, timeGinMat, mode }) => {
+    const { searchModes } = useTitlesMetadata();
+
+    const calculateSpeedup = (currentTime) => {
+        if (!timeSeq || !currentTime) return null;
+        return (timeSeq / currentTime).toFixed(1);
+    };
+
+    if (timeSeq === 0) {
+        const isWaitingForSeq = timeGin > 0 || timeGinMat > 0;
         return (
-            <>
-                <h4>System Ready</h4>
-                <p>Input a search with <strong>No Index</strong> to have a metric for <strong>Database Analysis</strong>.</p>
-            </>
+            <div className="analysis-status">
+                <h4>{isWaitingForSeq ? "⚡ Missing Baseline" : "System Ready"}</h4>
+                <p>
+                    {isWaitingForSeq 
+                        ? "Please run a 'Sequential' search to calculate the performance speedup."
+                        : "Run a search with 'No Index' to start the database analysis."}
+                </p>
+            </div>
+        );
+    }
+    if (mode === searchModes.SEQUENTIAL) {
+        return (
+            <div className="analysis-content">
+                <h4 className="rank-3">Sequential Scan (The Baseline)</h4>
+                <div className="pros-cons">
+                    <strong>Pros:</strong> No storage overhead; ideal for tiny tables. <br/>
+                    <strong>Cons:</strong> $O(N)$ complexity. The engine must touch every data block on disk.
+                </div>
+                <blockquote>
+                    PostgreSQL is forced to ignore indexes. This is your "worst-case scenario" metric.
+                </blockquote>
+            </div>
         );
     }
 
-    // 2. CASE: Sequential Scan (No Index)
-    if (mode === 'No Index') {
+
+    if (mode === searchModes.GIN) {
+        const speed = calculateSpeedup(timeGin);
         return (
-            <>
-                <h4>Sequential Scan</h4>
-                <p>
-                    PostgreSQL is performing a <strong>Parallel Seq Scan</strong>. 
-                    Because <strong>Index Scans</strong> are disabled, the engine must read every 
-                    <strong> Data Block</strong> from the disk. This is <strong>O(N) complexity</strong>. 
-                    It is efficient for <strong>empty strings</strong> or when fetching a 
-                    large percentage of the table.
-                </p>
-            </>
+            <div className="analysis-content">
+                <h4 className="rank-2">GIN Trigram Index Analysis</h4>
+                {speed > 1 && <div className="badge">⚡ {speed}x Faster than Sequential</div>}
+                
+                <div className="">
+                    <strong>Pros:</strong> Efficient for <code>LIKE '%key%'</code> searches using trigrams.
+                    Matches multiple columns without scanning all rows. <br/>
+                    <strong>Cons:</strong> "Write Penalty" — CRUD operations are slower because the index must update.
+                </div>
+            </div>
         );
     }
 
-    // 3. CASE: Index Analysis
-    if (mode === 'Index') {
-        const speedup = timeNoIndex > 0 ? (timeNoIndex / timeIndex).toFixed(1) : 0;
+    if (mode === searchModes.GIN_MAT) {
+        const speed = calculateSpeedup(timeGinMat);
         return (
-            <>
-                <h4>Index Analysis</h4>
-                <p>
-                    The engine is using a <strong>GIN/GIST Trigram Index</strong>. 
-                    Instead of reading the whole table, it uses a <strong>Bitmap Index Scan </strong> 
-                    to find <strong>Tuple IDs (TIDs)</strong> matching <strong>"{keyword}"</strong>. 
-                    {speedup > 1 && <>This is roughly <strong>{speedup}x faster</strong> than a raw scan.</>}
-                </p>
-            </>
-        );
-    }
+            <div className="analysis-content">
+                <h4 className="rank-1">Materialized View (Pre-Computed)</h4>
+                {speed > 1 && <div className="badge">⚡ {speed} x Faster than Sequential</div>}
 
-    // 4. CASE: Materialized View Analysis
-    if (mode === 'Materialized') {
-        return (
-            <>
-                <h4>Materialized View Analysis</h4>
-                <p>
-                    The query is hitting a <strong>Physical Snapshot</strong>. 
-                    Unlike a standard view, a <strong>Materialized View</strong> stores the 
-                    result on disk. This eliminates <strong>Filtering Latency</strong> 
-                    by acting like a <strong>Pre-Computed Cache</strong>.
-                </p>
-            </>
+                <div className="">
+                    <strong>Pros:</strong> Acts as a <strong>Physical Cache</strong>. Joins are pre-calculated 
+                    into a single <code>search_keys</code> column. <br/>
+                    <strong>Cons:</strong> Data becomes "stale." Requires a <code>REFRESH MATERIALIZED VIEW</code> to see new data.
+                </div>
+            </div>
         );
     }
 

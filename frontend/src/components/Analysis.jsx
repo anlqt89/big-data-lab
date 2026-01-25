@@ -1,39 +1,27 @@
+import { useTitlesMetadata } from '../context/TitleMetaDataProvider';
 import './analysis.css';
 import { AnalysisCard } from './AnalysisCard';
 import { QueryVisualizer } from './QueryVisualizer';
 
-export const Analysis = ({timeSeq, timeGin, timeGinMat, sKey, typeSearch, id, mode}) => {
-    const table = typeSearch !== 'materialized' ? "titles" : "search_registry";
-    const column = typeSearch !== 'materialized' ? "primarytitle" : "search_text"; 
-    let rate = {
-        timeSeq: "1",
-        timeGin: "-----",
-        timeGinMat: "-----",
+export const Analysis = ({timeSeq, timeGin, timeGinMat, sKey, mode, queryPlan}) => {
+    const { searchModes } = useTitlesMetadata();
+    const sql = queryPlan.baseSql;
+    const conditions = []
+   
+    for (const con of queryPlan.filterDefs){
+        if(con.value !== undefined && con.value !== null && con.value !== ''){
+            conditions.push(`${con.column} ${con.operator} ${con.wildCards}`)
+        }
+    }
+    const limit = queryPlan.limit;
+   
+    const rates = {
+        [searchModes.SEQUENTIAL] : 1.0,
+        [searchModes.GIN] : timeGin > 0 ? (timeSeq / timeGin) : 0.0,
+        [searchModes.GIN_MAT] : timeGinMat > 0 ? (timeSeq / timeGinMat) : 0,
     }
 
-    function calculateGain(){
-        if (timeSeq === 0){
-            rate = {
-                seq: "1",
-                gin: "-----",
-                ginMat: "-----",
-            }
-        }else{
-            rate.gin = timeGin != 0 ? (timeSeq/timeGin).toFixed(1).toString() : "-----"
-            rate.ginMat = timeGinMat != 0 ? (timeSeq/timeGinMat).toFixed(1).toString() : "-----"
-        }
-    };
-    calculateGain();
-
-    const times = [
-        { name: 'sequential', val: timeSeq},
-        { name: 'gin index', val: timeGin },
-        { name: 'gin + materialzed', val: timeGinMat }
-    ].sort((a, b) => a.val - b.val);
-
-    const rankNoIndex = times.findIndex(item => item.name === 'sequential') + 1;
-    const rankIndex = times.findIndex(item => item.name === 'gin index') + 1;
-    const rankMat = times.findIndex(item => item.name === 'gin + materialzed') + 1;
+    const ranks = Object.keys(rates).sort((a, b) => rates[b] - rates[a]);
 
     return (
         <div className="analysis-container">
@@ -54,20 +42,20 @@ export const Analysis = ({timeSeq, timeGin, timeGinMat, sKey, typeSearch, id, mo
                         </tr>
                     </thead>
                     <tbody>
-                        <tr className={timeSeq !== 0 ?"rank-"+rankNoIndex : ""}>
+                        <tr className={timeSeq !== 0 ? `rank-${ranks.indexOf(searchModes.SEQUENTIAL) + 1}` : ""}>
                             <td>Parallel Seq Scan</td>
                             <td>{timeSeq} ms</td>
                             <td className="gain-baseline">Baseline (1x)</td>
                         </tr>
-                        <tr className={timeGin !== 0? "rank-"+rankIndex : ""}>
+                        <tr className={timeGin !== 0? `rank-${ranks.indexOf(searchModes.GIN) + 1}` : ""}>
                             <td>Indexed Table Scan</td>
                             <td>{timeGin} ms</td>
-                            <td className="gain-mid">{rate.gin}x Faster</td>
+                            <td className="gain-mid">{rates[searchModes.GIN]}x Faster</td>
                         </tr>
-                        <tr className={timeGinMat !== 0 ? "rank-"+rankMat: ""}>
+                        <tr className={timeGinMat !== 0 ? `rank-${ranks.indexOf(searchModes.GIN_MAT) + 1}` : ""}>
                             <td>Materialized View</td>
                             <td>{timeGinMat} ms</td>
-                            <td className="gain-high">{rate.ginMat}x Faster</td>
+                            <td className="gain-high">{rates[searchModes.GIN_MAT]}x Faster</td>
                         </tr>
                     </tbody>
                 </table>
@@ -77,10 +65,10 @@ export const Analysis = ({timeSeq, timeGin, timeGinMat, sKey, typeSearch, id, mo
                 <h3>Technical Breakdown</h3>
                <div className="insight-card">
                     <h4>Query</h4>
-                    <QueryVisualizer table={table} column={column} sKey={sKey} id ={id} mode={mode}></QueryVisualizer>
+                    <QueryVisualizer sql={sql} conditions={conditions} limit={limit} mode={mode}></QueryVisualizer>
                 </div>
                <div className="insight-card">
-                   <AnalysisCard timeNoIndex={timeSeq} timeIndex={timeGin} timeMat={timeGinMat} sKey={sKey} mode={mode}/>
+                   <AnalysisCard timeSeq={timeSeq} timeGin={timeGin} timeGinMat={timeGinMat} sKey={sKey} mode={mode}/>
                 </div>
             </section>
         </div>
