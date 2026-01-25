@@ -50,12 +50,12 @@ export const Analysis = ({timeSeq, timeGin, timeGinMat, sKey, mode, queryPlan}) 
                         <tr className={timeGin !== 0? `rank-${ranks.indexOf(searchModes.GIN) + 1}` : ""}>
                             <td>Indexed Table Scan</td>
                             <td>{timeGin} ms</td>
-                            <td className="gain-mid">{rates[searchModes.GIN]}x Faster</td>
+                            <td className="gain-mid">{rates[searchModes.GIN].toFixed(1)}x Faster</td>
                         </tr>
                         <tr className={timeGinMat !== 0 ? `rank-${ranks.indexOf(searchModes.GIN_MAT) + 1}` : ""}>
                             <td>Materialized View</td>
                             <td>{timeGinMat} ms</td>
-                            <td className="gain-high">{rates[searchModes.GIN_MAT]}x Faster</td>
+                            <td className="gain-high">{rates[searchModes.GIN_MAT].toFixed(1)}x Faster</td>
                         </tr>
                     </tbody>
                 </table>
