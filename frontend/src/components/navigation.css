@@ -6,6 +6,7 @@
     padding-left: 10px;
     border-bottom: 1px solid var(--light-grey);
 }
+
 .navbar-expand-lg  .navbar-brand{
     color:var(  --global-color-font-1);
 
@@ -13,6 +14,7 @@
 
 .navbar-expand-lg .navbar-nav {
     display: flex;
+    flex-direction: row;
     gap: 5px;
 }
 

@@ -1,34 +1,31 @@
-import React, { createContext, useState, useEffect, useContext, useCallback } from 'react';
+import { createContext, useState, useEffect, useCallback } from 'react';
 import { TitlesService } from '../services/TitleService';
-
-const TitlesMetadataContext = createContext(); //context 
+import { useContext } from 'react';
 
 export const TitleMetaDataProvider = ({ children }) => {
 
-//data will be sync from backend
   const [metadata, setMetadata] = useState({
-    genres: [],
-    titleTypes: [],
-    searchModes: [],
+    genres: {},
+    titleTypes: {},
+    searchModes: {},
     exampleURL: "",
-    loading: true,
+    isLoading: true,
     error: null
   });
 
-
-
+  //Create the identiy for syncMetadata do the jobs: make an API call => promises => setMedata
   const syncMetadata = useCallback(async () => {
-    setMetadata(prev => ({ ...prev, loading: true, error: null }));
+    setMetadata(prev => ({ ...prev, isLoading: true, error: null }));
     
     try {
       const data = await TitlesService.getSearchOptions();
-     
+
       setMetadata({
         exampleURL: data.exampleURL,
-        genres: data.filters.titletype.pattern || {},
-        titleTypes: data.filters.genres.pattern || {},
-        searchModes: data.mode.pattern || {},
-        loading: false,
+        genres: data?.filters?.genres?.pattern ?? {},
+        titleTypes: data?.filters?.titletype?.pattern ?? {},
+        searchModes: data?.mode?.pattern ?? {},
+        isLoading: false,
         error: null
       });
       
@@ -36,31 +33,32 @@ export const TitleMetaDataProvider = ({ children }) => {
       console.error("Metadata Sync Error:", err);
       setMetadata(prev => ({
         ...prev,
-        loading: false,
+        isLoading: false,
         error: err.message || "Failed to sync with backend"
       }));
     }
   }, []);
 
-  // 4. Run the sync once on mount
+  //Execute syncMetadata once 
   useEffect(() => {
     syncMetadata();
-  }, [syncMetadata]);
+  }, []);
 
-  // 5. Provide the state AND the refresh function to the rest of the app
+  //Create the context and defined the rule: grand my childrens and grandchildrens to acces value{metadata}
   return (
-    <TitlesMetadataContext.Provider value={{ ...metadata, refresh: syncMetadata }}>
+    <TitlesMetadataContext.Provider 
+     value={metadata} //return a the object itself (metadata), must descontruct it to use const {genres, ...} = useTitlesMetadata()
+    //  value={{metadata}} //return the the warp(wrap object) of the object ({metadata}), destruct the wrap object, so can use const {metadata} = useTitlesMetadata()
+    >
       {children}
     </TitlesMetadataContext.Provider>
   );
 };
 
-/**
- * Custom Hook: useTitlesMetadata
- * Usage: const { genres, titleTypes, searchModes, loading, refresh } = useTitlesMetadata();
- */
+  const TitlesMetadataContext = createContext(); 
+//Create a key for who have permission to open the context/common resources 
 export const useTitlesMetadata = () => {
-  const context = useContext(TitlesMetadataContext);
+  const context = useContext(TitlesMetadataContext); 
   if (!context) {
     throw new Error("useTitlesMetadata must be used within a TitleMetaDataProvider");
   }

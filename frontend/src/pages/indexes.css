@@ -1,26 +1,79 @@
-.movies-outer-box{
-    padding: var(--padding-5px);
-    align-items: stretch; /* This forces columns to have equal height */
-    gap: 10px;            /* Adds the "space between" the two boxes */
-    padding: 10px;
+.search-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+    width: 100%;
+    padding-bottom: 16px;
 }
 
-.d-flex{
+.left-filter-group {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.left-filter-group-top {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 15px;
+    width: 100%;
+}
+
+.right-filter-group {
+    flex: 1.2;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.right-filter-group > .d-flex {
+    display: flex;
+    flex-direction: row !important;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+.filter-item-group {
+    display: flex;
+    flex-direction: column;
     gap: 5px;
+    flex: 1;
 }
 
-.form-control{
-    background-color: var( --global-color-background-3) !important; 
-    color: var(--global-color-font-1) !important;
-
+.genre-width { 
+    flex: 2; 
 }
 
-.form-control::placeholder{
-    background-color: var( --global-color-background-3) !important; 
-    color: var(--global-color-placeholder-1) !important;
-
+.small.fw-bold {
+    white-space: nowrap;
+    margin-bottom: 2px;
 }
 
-.my-form{
-    margin-bottom: 10px ;
+.btn-group .btn {
+    padding: 4px 12px; 
+    height: 38px; 
+    line-height: 1.2;
+    width: auto;
+    flex: 0 0 auto; 
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-group {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    height: auto;
+    width: fit-content;
+}
+
+.year-group {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
 }

@@ -10,7 +10,7 @@ export const SEARCH_STRATEGIES = {
                 filterDefs: [
                     { column: 't.tconst', operator: '>', value: filters.cursor || 'tt0000000' , wildCards: filters.cursor || `'tt0000000'`},
                     { column: 't.genres', operator: 'LIKE', value: filters.genres, transform: v => `${v}%` ,  wildCards: `'${filters.genres}%'`},
-                    { column: 't.primarytitle', operator: 'ILIKE', value: filters.title, transform: v => `%${v}%`, wildCards: `'%${filters.titletype}%'`},
+                    { column: 't.primarytitle', operator: 'ILIKE', value: filters.title, transform: v => `%${v}%`, wildCards: `'%${filters.title}%'`},
                     { column: 't.titletype', operator: 'ILIKE', value: filters.titletype, transform: v => `${v}`,  wildCards: `'${filters.titletype}'`},
                     { column: 't.startyear', operator: '>=', value: filters.fromYear, wildCards: `${filters.fromYear}`},
                     { column: 't.startyear', operator: '<=', value: filters.toYear,  wildCards: `${filters.toYear}`},
@@ -28,7 +28,7 @@ export const SEARCH_STRATEGIES = {
                 filterDefs: [
                     { column: 't.tconst', operator: '>', value: filters.cursor || 'tt0000000' , wildCards: filters.cursor || `'tt0000000'`},
                     { column: 't.genres', operator: 'LIKE', value: filters.genres, transform: v => `${v}%` ,  wildCards: `'${filters.genres}%'`},
-                    { column: 't.primarytitle', operator: 'ILIKE', value: filters.title, transform: v => `%${v}%`, wildCards: `'%${filters.titletype}%'`},
+                    { column: 't.primarytitle', operator: 'ILIKE', value: filters.title, transform: v => `%${v}%`, wildCards: `'%${filters.title}%'`},
                     { column: 't.titletype', operator: 'ILIKE', value: filters.titletype, transform: v => `${v}`,  wildCards: `'${filters.titletype}'`},
                     { column: 't.startyear', operator: '>=', value: filters.fromYear, wildCards: `${filters.fromYear}`},
                     { column: 't.startyear', operator: '<=', value: filters.toYear,  wildCards: `${filters.toYear}`},

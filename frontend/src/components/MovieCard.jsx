@@ -1,5 +1,5 @@
 import './moviecard.css'
-export const MovieCard = ({index, tconst, title, type, genres, year}) =>{
+export const MovieCard = ({index, title, type, genres, year}) =>{
    
     return(
         <tr className="my-tr">

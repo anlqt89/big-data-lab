@@ -1,5 +1,7 @@
 import { useTitlesMetadata } from "../context/TitleMetaDataProvider";
 
+
+
 export const AnalysisCard = ({ timeSeq, timeGin, timeGinMat, mode }) => {
     const { searchModes } = useTitlesMetadata();
 

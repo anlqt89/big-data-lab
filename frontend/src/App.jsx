@@ -11,7 +11,7 @@ import { TitleMetaDataProvider } from "./context/TitleMetaDataProvider";
 
 function App() {
     return(
-       <TitleMetaDataProvider>
+       
       <Router>
         <NavigationBar></NavigationBar>
         <Routes>
@@ -19,13 +19,16 @@ function App() {
           <Route path="/Home" element={<Home />} />
           <Route path="/about" element={<About />} />
          
-          <Route path="/Indexes" element={<Indexes />} />
+          <Route path="/Indexes" element={
+            <TitleMetaDataProvider>
+              <Indexes />
+            </TitleMetaDataProvider> }/>
+            
           <Route path="/Colaborations" element={<Colaborations />} />
           <Route path="/Trends" element={<Trends />} />
         </Routes>
         <Footer> </Footer>
       </Router>
-      </TitleMetaDataProvider>
     )
 
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Analysis } from "../components/Analysis";
 import { MovieCard } from "../components/MovieCard";
 import { Pagination } from "../components/Pagination";
@@ -16,11 +16,12 @@ export const Indexes = () => {
     const limit = 10;
     const [loading, setLoading] = useState(false);
     const [results, setResults] = useState({ data: [], hasNext: false, nextCursor: null });
-    const titleRef = useRef();
-    const typeRef = useRef();
-    const genresRef = useRef();
-    const fromYearRef = useRef();
-    const toYearRef = useRef();
+    const [filters, setFilters] = useState({ title: '', 
+                                            titletype: '',
+                                            genres: '',
+                                            fromYear: '',
+                                            toYear: ''});
+    const { title, titletype, genres: genreFilter, fromYear, toYear } = filters;
 
     const [searchMode, setSearchMode] = useState(""); 
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
@@ -30,23 +31,24 @@ export const Indexes = () => {
     const [queryPlan, setQueryPlan] = useState();
 
 
-    const fetchData = useCallback(async (cursor = "", activeMode, currentFilters) => {
+    const fetchData = useCallback(async (cursor = "", activeMode) => {
         setLoading(true);
-        
+    
         try {
-            const filters = currentFilters || {
-                        title: "",
-                        titletype: "",
-                        genres: ""
-                    };
+    
             const response = await TitlesService.searchTitles(activeMode, {
-            ...filters,
+            title,
+            titletype,
+            genres: genreFilter,
+            fromYear,
+            toYear,
             cursor,
             limit
             });
+            
             setBenchmarks(prev => ({
                 ...prev,
-                [activeMode]: Number(response.executionTime.slice(0, -2)).toFixed(2).toString()
+                [activeMode]: Number(response.executionTime).toFixed(2).toString()
             }));
 
             setStrategy(response.strategyUsed);
@@ -62,7 +64,7 @@ export const Indexes = () => {
         } finally {
             setLoading(false);
         }
-    }, []);
+    }, [title, titletype, fromYear,toYear, genreFilter]);
 
 
     useEffect(() => {
@@ -75,21 +77,11 @@ export const Indexes = () => {
     }, [isLoading, searchModes, fetchData]);
 
     const handleSearch = (e) => {
-        if (e) e.preventDefault();
-        if (!titleRef.current) return; 
-
-        const currentFilters = {
-            title: titleRef.current.value,
-            titletype: typeRef.current.value,
-            genres: genresRef.current.value,
-            fromYear: fromYearRef.current.value,
-            toYear: toYearRef.current.value
-        };
-        
+        e.preventDefault();
         const mode = e.nativeEvent.submitter.name;
 
         setSearchMode(mode);
-        fetchData("", mode, currentFilters);
+        fetchData("", mode);
         };
 
     const handleNext = () => {
@@ -131,7 +123,8 @@ export const Indexes = () => {
                                     <label className="small fw-bold">Type</label>
                                     <select 
                                         className="form-select form-select-sm"
-                                        ref={typeRef}
+                                        value={filters.titletype}
+                                        onChange={(e) => setFilters(prev => ({ ...prev, titletype: e.target.value }))}
                                     >   
                                         <option value="">All Types</option>
                                         {titleTypes && Object.entries(titleTypes).map(([label, val]) =>(
@@ -146,7 +139,8 @@ export const Indexes = () => {
                                 type="text" 
                                 className="form-control form-control-sm"
                                 placeholder="e.g. Action, Sci-Fi"
-                                ref={genresRef}
+                                value={filters.genres}
+                                onChange={(e) => setFilters(prev => ({ ...prev, genres: e.target.value }))}
                             />
                         </div>
                             </div>
@@ -155,7 +149,14 @@ export const Indexes = () => {
                             type="text"
                             className="form-control"
                             placeholder="Search movies..."
-                            ref={titleRef}
+                            value={filters.title}
+                            onChange={(e) => {
+                                const val = e.target.value;
+                                setFilters(prev => ({ 
+                                    ...prev, 
+                                    title: val 
+                                }));
+                            }}
                         />
                             </div>
                          
@@ -167,8 +168,9 @@ export const Indexes = () => {
                             <input 
                                 type="number" 
                                 className="form-control form-control-sm"
-                                placeholder="1950"
-                                 ref={fromYearRef}
+                                placeholder="1990"
+                                value={filters.fromYear}
+                                onChange={(e) => setFilters(prev => ({ ...prev, fromYear: e.target.value }))}
                             />
                         </div>
 
@@ -177,8 +179,9 @@ export const Indexes = () => {
                             <input 
                                 type="number" 
                                 className="form-control form-control-sm"
-                                placeholder={new Date().getFullYear()}
-                                  ref={toYearRef}
+                                placeholder="2024"
+                                value={filters.toYear}
+                                onChange={(e) => setFilters(prev => ({ ...prev, toYear: e.target.value }))}
                             />
                         </div>
                         </div>
@@ -245,7 +248,7 @@ export const Indexes = () => {
                             timeSeq={benchmarks.sequential } 
                             timeGin={benchmarks.gin} 
                             timeGinMat={benchmarks.gin_mat} 
-                            sKey={titleRef.current?.value || "No search term"}
+                            sKey={filters.title}
                             mode={searchMode}
                             queryPlan = {queryPlan}
                         />
