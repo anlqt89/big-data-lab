@@ -1,6 +1,6 @@
 import { SEARCH_STRATEGIES } from "../strategies/searchStrategies.js";
 import { cleanValue, cleanRequestKeys } from "../utilities/stringUltils.js";
-import { buildQuery } from "../utilities/dbUltils.js";
+import { buildQuery, buildQueryWithSort } from "../utilities/dbUltils.js";
 import { pool } from "../config/db.js";
 
 
@@ -18,7 +18,7 @@ import { pool } from "../config/db.js";
  */
 
 export const titlesSearch = async (req, res) => {
-    const { mode, ...filters } = req.query;
+    const { mode, configSort, ...filters } = req.query;
 
     const cleanMode = mode ? cleanValue(mode) : SEARCH_STRATEGIES.sequential.id;
     const cleanFilters = cleanRequestKeys(filters);
@@ -35,9 +35,8 @@ export const titlesSearch = async (req, res) => {
             await client.query("SET enable_indexscan = on;");
             await client.query("SET enable_bitmapscan = on;");
         }
-
         const plan = strategy.getPlan(cleanFilters);
-        const { sql, values } = buildQuery(plan.baseSql, plan.filterDefs, plan.limit);
+        const { sql, values } = buildQueryWithSort(plan.baseSql, plan.filterDefs, plan.limit, configSort);
 
         const startTime = performance.now();
         const result = await client.query(sql, values); 

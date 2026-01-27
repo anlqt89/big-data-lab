@@ -7,11 +7,12 @@ import { SetFavicon } from "../components/SetFavicon";
 import { FAVICON_TITLES } from "../global/constants";
 import { TitlesService } from "../services/TitleService";
 import { useTitlesMetadata } from "../context/TitleMetaDataProvider";
+import { Announcement } from "../components/Announcement";
 
 export const Indexes = () => {
     SetFavicon(`${FAVICON_TITLES.BIG_DATA_LAB} | ${FAVICON_TITLES.MOVIES}`);
     
-   const {genres, titleTypes, searchModes, exampleURL, isLoading, error} = useTitlesMetadata();
+   const { titleTypes, searchModes, isLoading} = useTitlesMetadata();
     
     const limit = 10;
     const [loading, setLoading] = useState(false);
@@ -28,7 +29,12 @@ export const Indexes = () => {
     const [benchmarks, setBenchmarks] = useState({ sequential: 0, gin: 0, gin_mat: 0 });
     const [strategy, setStrategy] = useState("Sequential Scan");
     const [queryPlan, setQueryPlan] = useState();
-
+    const [configSort, setConfigSort] = useState({
+        "primarytitle": true,
+        "titletype": true,
+        "genres": true,
+        "startyear": true,
+    })
 
     const fetchData = useCallback(async (cursor = "", activeMode, currentFilters) => {
         setLoading(true);
@@ -41,6 +47,7 @@ export const Indexes = () => {
                     };
             const response = await TitlesService.searchTitles(activeMode, {
             ...filters,
+              configSort: JSON.stringify(configSort),
             cursor,
             limit
             });
@@ -62,7 +69,7 @@ export const Indexes = () => {
         } finally {
             setLoading(false);
         }
-    }, []);
+    }, [configSort]);
 
 
     useEffect(() => {
@@ -113,9 +120,38 @@ export const Indexes = () => {
             fetchData(prevCursor, searchMode);
         }
     };
+    
+    
+
+    const getSortIcon = (column) => {
+        if (configSort[column] === true){
+             return ' ▾'
+        }
+        return ' ▴';
+    };
+
+    const handleSort = (e, column) =>{
+        if (e) e.preventDefault();
+        const reverseSort = !configSort[column]
+        const tmp = { ...configSort };
+        delete tmp[column];
+        const newConfig = { [column]: reverseSort, ...tmp };
+        setConfigSort(newConfig);
+
+        const currentFilters = {
+            title: titleRef.current.value,
+            titletype: typeRef.current.value,
+            genres: genresRef.current.value,
+            fromYear: fromYearRef.current.value,
+            toYear: toYearRef.current.value
+        };
+
+        fetchData("", searchMode, currentFilters);
+    }
 
     return (
         <div className="container app-container">
+            <Announcement></Announcement>
             <div className="movies-outer-box row align-items-start">
                 <div className="col left-col">
                     <form className="my-form" onSubmit={handleSearch}>
@@ -206,14 +242,23 @@ export const Indexes = () => {
                     </form>
 
                     <table className="table">
+                      
                         <thead>
-                            <tr className="my-tr">
-                                <th className="my-th">#</th>
-                                <th className="my-th">Name</th>
-                                <th className="my-th">Type</th>
-                                <th className="my-th">Genres</th>
-                                <th className="my-th">Year</th>
-                            </tr>
+                              <tr className="my-tr">
+                                    <th className="my-th">#</th>
+                                    <th className="my-th sortable"  onClick={(e) => handleSort(e, 'primarytitle')}>
+                                        Name {getSortIcon('primarytitle')}
+                                    </th>
+                                    <th className="my-th sortable" onClick={(e) => handleSort(e, 'titletype')}>
+                                            Type <span className="sort-arrow">{getSortIcon('titletype')}</span>
+                                    </th>
+                                    <th className="my-th sortable" onClick={(e) => handleSort(e, 'genres')}>
+                                        Genres {getSortIcon('genres')}
+                                    </th>
+                                    <th className="my-th sortable" onClick={(e) => handleSort(e, 'startyear')}>
+                                        Year {getSortIcon('startyear')}
+                                    </th>
+                                </tr>
                         </thead>
                         <tbody>
                             {results?.data?.map((movie, i) => (
