@@ -10,61 +10,66 @@ const About = () => {
     <div className="about-container">
       <header className="about-header">
         <h1>About the Project</h1>
-        <p className="subtitle">High-Performance Movie Data Analytics</p>
+        <p className="subtitle">A PostgreSQL Indexing Lab Built on IMDB Data</p>
       </header>
 
       <section className="about-section">
-        <h2>The Vision</h2>
+        <h2>What This Is</h2>
         <p>
-          This dashboard was built to demonstrate how <strong>Big Data</strong> can be 
-          visualized in real-time. By connecting a React frontend to a optimized PostgreSQL 
-          backend, I’ve created a bridge between raw relational data and meaningful 
-          cinematic insights.
+          This is a personal learning project built to explore how different PostgreSQL
+          indexing strategies affect real query performance. Rather than using synthetic
+          data, it runs against the public <strong>IMDB dataset</strong> — over 18 million
+          records across two tables — to keep the benchmarks honest.
+        </p>
+        <p>
+          The goal isn’t to build a polished product. It’s to make the trade-offs between
+          Sequential Scans, GIN Indexes, and Materialized Views visible and measurable in a
+          working UI.
         </p>
       </section>
 
       <section className="tech-deep-dive">
-        <h2>Technical Architecture</h2>
+        <h2>What’s Built</h2>
         <div className="tech-grid">
           <div className="tech-card">
-            <h3>Frontend Visualization</h3>
+            <h3>Three Search Modes</h3>
             <p>
-              Utilized <strong>Recharts</strong> for responsive data rendering. 
-              The charts use <strong>Area and Bar geometries</strong> to visualize 
-              actor career trajectories and genre distributions.
+              Each search can be run as a <strong>Sequential Scan</strong>, a <strong>GIN Index</strong>
+              scan, or a <strong>GIN + Materialized View</strong> scan. Execution times are
+              captured and displayed side-by-side so the difference is easy to see.
             </p>
           </div>
 
           <div className="tech-card highlight">
-            <h3>Senior SQL Techniques</h3>
+            <h3>GIN Trigram Indexing</h3>
             <p>
-              To keep the UI fast, I offloaded heavy calculations to the database. 
-              I implemented <strong>SQL Window Functions</strong> like <code>AVG(...) OVER(...)</code> 
-              to calculate rolling averages and career trends. 
+              Used <strong>pg_trgm</strong> GIN indexes to make <code>ILIKE</code> pattern
+              matching fast across millions of movie titles. Without this, partial-string
+              searches force a full table scan every time.
             </p>
             <div className="code-snippet">
-               -- Example: Moving Average Calculation{"\n"}
-               AVG(runtime) OVER(ORDER BY year ROWS 3 PRECEDING)
+               -- GIN index on title for ILIKE support{"\n"}
+               CREATE INDEX ON titles USING GIN (primaryTitle gin_trgm_ops);
             </div>
           </div>
 
           <div className="tech-card">
-            <h3>Indexing & Optimization</h3>
+            <h3>Query Plan Visibility</h3>
             <p>
-              Implemented <strong>GIN Trigram Indexing</strong> to support fast 
-              <code> ILIKE </code> pattern matching across millions of movie titles, 
-              reducing search latency by over 90%.
+              Every search surfaces the raw PostgreSQL <strong>EXPLAIN output</strong> so
+              you can see whether an Index Scan, Bitmap Heap Scan, or Sequential Scan was
+              actually chosen — not just what was expected.
             </p>
           </div>
         </div>
       </section>
 
       <section className="coming-soon-preview">
-        <h2>Roadmap (Coming Soon)</h2>
+        <h2>What’s Next</h2>
         <ul className="roadmap-list">
-          <li><strong>Geospatial Mapping:</strong> Visualizing filming locations using PostGIS.</li>
-          <li><strong>Sentiment Analysis:</strong> NLP processing on 100k+ user reviews.</li>
-          <li><strong>Graph Analysis:</strong> Mapping the "Six Degrees of Separation" between actors.</li>
+          <li><strong>Trends:</strong> Genre and runtime trends over time using SQL Window Functions.</li>
+          <li><strong>Collaborations:</strong> Actor co-occurrence networks from the principals table.</li>
+          <li><strong>Recharts Visualizations:</strong> Charts to complement the raw query results.</li>
         </ul>
       </section>
     </div>

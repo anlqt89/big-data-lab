@@ -16,7 +16,7 @@ export const Announcement = () => {
         <span aria-label="announcement">📢 Project Update</span>
 
         </h3>
-                <button
+        <button
                 className="announcement-close"
                 aria-label="Close announcement"
                 onClick={() => setVisible(false)}

@@ -27,8 +27,13 @@ export const TitlesService = {
    * @returns {Promise<Array>} A list of movie/show results.
    */
 
-  searchTitles: async (mode, params) => {
-    const queryString = new URLSearchParams(params).toString();
+  searchTitles: async (mode,filters, sortConfig) => {
+
+      const queryString = new URLSearchParams({
+      ...filters,
+      sortConfig: JSON.stringify(sortConfig)
+    }).toString();
+
     const response = await fetch(`${BASE_URL}/search?mode=${mode}&${queryString}`);
     if (!response.ok) throw new Error('Search failed');
     return await response.json();

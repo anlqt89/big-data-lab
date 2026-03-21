@@ -6,7 +6,7 @@ export const Footer = () => {
             <div className="footer-content">
                 <div className="footer-section">
                     <h2>An Lam</h2>
-                    <p>Software Engineer specializing in Big Data, RISC-V, and Full-Stack Development.</p>
+                    <p>Software Engineer — Full-Stack Development, AI/ML, and Data Engineering.</p>
                 </div>
 
                 <div className="footer-section">

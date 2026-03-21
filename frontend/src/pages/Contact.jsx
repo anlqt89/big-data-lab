@@ -45,7 +45,7 @@ export const Contact = ()=>{
 
             <div className="contact-footer" style={{ textAlign: 'center', marginTop: '20px' }}>
                 <p style={{ fontStyle: 'var(--font-type-2)', color: 'var(--global-color-placeholder-1)' }}>
-                    LinkedIn: /in/anlamtech • GitHub: /anlqt89
+                    LinkedIn: /in/anlamtech • GitHub: /anlqt89 • <a href="https://anlam.app/projects" target="_blank" rel="noreferrer" style={{ color: 'var(--accent-emerald)' }}>anlam.app/projects</a>
                 </p>
             </div>
         </div>

@@ -22,7 +22,7 @@ export const Indexes = () => {
     const genresRef = useRef();
     const fromYearRef = useRef();
     const toYearRef = useRef();
-    const [sortConfig, setSortConfig] = useState({
+    const sortRefs = useRef({
         tconst: true,
         primarytitle: true,
         titletype: true,
@@ -55,20 +55,14 @@ export const Indexes = () => {
                         titletype: "",
                         genres: ""
                     };
-            const cSort = configSort || {
-                 tconst: true,
-                primarytitle: true,
-                titletype: true,
-                genres: true,
-                startyear: true,
-            }
+            
 
             const response = await TitlesService.searchTitles(activeMode, {
             ...filters,
             cursor,
             limit
             },
-            cSort
+            configSort
         );
             setBenchmarks(prev => ({
                 ...prev,
@@ -94,38 +88,41 @@ export const Indexes = () => {
     useEffect(() => {
         if (isLoading) return;
         if (!searchModes?.GIN) return;
+         if (!sortRefs.current) return;
          
         const mode = searchModes.GIN;
         setSearchMode(searchModes.GIN);
-        fetchData("", mode, sortConfig);
+        fetchData("", mode, sortRefs.current);
         
     }, [isLoading, searchModes, fetchData]);
 
     const handleSearch = (e) => {
         if (e) e.preventDefault();
         if (!titleRef.current) return; 
-
+        if (!sortRefs.current) return;
         const currentFilters = getFilters();
         const mode = e.nativeEvent.submitter.name;
         
         setSearchMode(mode);
-        fetchData("", mode, sortConfig, currentFilters);
+        fetchData("", mode, sortRefs.current, currentFilters);
     };
 
     const handleNext = () => {
         if (!titleRef.current) return; 
+        if (!sortRefs.current) return;
         const currentFilters = getFilters();
         if (results?.nextCursor) {
             const newCursor = results.nextCursor; 
             const newHistory = [...history, newCursor];
             setHistory(newHistory);
             setCurrentPageIndex(prev => prev + 1);
-           fetchData("", searchMode, sortConfig, currentFilters);
+           fetchData("", searchMode, sortRefs.current, currentFilters);
         }
     };
 
     const handlePrevious = () => {
          if (!titleRef.current) return; 
+        if (!sortRefs.current) return;
         const currentFilters = getFilters();
 
         if (currentPageIndex > 0) {
@@ -135,28 +132,28 @@ export const Indexes = () => {
             const newHistory = history.slice(0, -1);
             setHistory(newHistory);
             setCurrentPageIndex(prevPageIndex);
-            fetchData(prevCursor, searchMode, sortConfig, currentFilters);
+            fetchData(prevCursor, searchMode, sortRefs.current, currentFilters);
         }
     };
     
     
 
     const getSortIcon = (column) => {
-        return sortConfig[column] === true? ' ▾' : ' ▴';
+        return sortRefs[column] === true? ' ▾' : ' ▴';
     };
 
     const handleSort = (e, column) =>{
         if (e) e.preventDefault();
+        if (!titleRef.current) return; 
         const currentFilters = getFilters()
-      
-
+        
+        if (!sortRefs.current) return;
         //push current sort column to head
-        const reverseSort = !sortConfig[column]
-        const tmp = {...sortConfig }; 
+        const reverseSort = !sortRefs.current[column]
+        const tmp = {...sortRefs.current }; 
         delete tmp[column];
-
+        
         const newConfig = { [column]: reverseSort, ...tmp };
-        setSortConfig(newConfig)
 
       fetchData("", searchMode, newConfig, currentFilters);
     }
