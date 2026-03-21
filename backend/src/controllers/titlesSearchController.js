@@ -18,8 +18,7 @@ import { pool } from "../config/db.js";
  */
 
 export const titlesSearch = async (req, res) => {
-    const { mode, configSort, ...filters } = req.query;
-
+    const { mode,  sortConfig, ...filters} = req.query;
     const cleanMode = mode ? cleanValue(mode) : SEARCH_STRATEGIES.sequential.id;
     const cleanFilters = cleanRequestKeys(filters);
     const strategy = SEARCH_STRATEGIES[cleanMode] || SEARCH_STRATEGIES.sequential;
@@ -35,9 +34,9 @@ export const titlesSearch = async (req, res) => {
             await client.query("SET enable_indexscan = on;");
             await client.query("SET enable_bitmapscan = on;");
         }
+        
         const plan = strategy.getPlan(cleanFilters);
-        const { sql, values } = buildQueryWithSort(plan.baseSql, plan.filterDefs, plan.limit, configSort);
-
+        const { sql, values } = buildQueryWithSort(plan.baseSql, plan.filterDefs, plan.limit, sortConfig);
         const startTime = performance.now();
         const result = await client.query(sql, values); 
         const endTime = performance.now();

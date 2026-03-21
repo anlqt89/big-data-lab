@@ -10,7 +10,6 @@ export function buildQuery(baseSql, filterDefinitions, limit) {
     });
 
     const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
-        console.log(whereClause);
     return {
         sql: `${baseSql} ${whereClause} ORDER BY tconst ASC LIMIT ${limit}`,
         values
@@ -18,9 +17,32 @@ export function buildQuery(baseSql, filterDefinitions, limit) {
 }
 
 export function buildQueryWithSort(baseSql, filterDefinitions, limit, configSort) {
+    
     const conditions = [];
     const values = [];
-    const sortConfig = JSON.parse(configSort); //convert string to Json
+    const sortConfig = JSON.parse(configSort);
+    const [column, val] = Object.entries(sortConfig)[0];
+    const direction = val ? 'ASC' : 'DESC';
+    const sortQuery = `${column} ${direction}`
+
+    filterDefinitions.forEach(def => {
+        if (def.value !== undefined && def.value !== null && def.value !== '') {
+            values.push(def.transform ? def.transform(def.value) : def.value);
+            conditions.push(`${def.column} ${def.operator} $${values.length}`);
+        }
+    });
+
+    const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
+    return {
+        sql: `${baseSql} ${whereClause} ORDER BY ${sortQuery} LIMIT ${limit}`,
+        values
+    };
+}
+
+export function buildQueryWithMultiSort(baseSql, filterDefinitions, limit, configSort) {
+    const conditions = [];
+    const values = [];
+    const sortConfig = JSON.parse(configSort); 
     const sortQuery = Object.keys(sortConfig) //Map key associate with table allies and sort keys
             .map(key => {
                 const column = (key === 'startyear') ? 't.startyear' : `t.${key}`; //Map with table allie
@@ -37,6 +59,7 @@ export function buildQueryWithSort(baseSql, filterDefinitions, limit, configSort
     });
 
     const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
+
     return {
         sql: `${baseSql} ${whereClause} ORDER BY ${sortQuery} LIMIT ${limit}`,
         values
