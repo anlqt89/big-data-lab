@@ -39,7 +39,7 @@ export const Indexes = () => {
 
     const getFilters = () =>{
         return {
-            primarytitle: titleRef.current.value,
+            title: titleRef.current.value,
             titletype: typeRef.current.value,
             genres: genresRef.current.value,
             fromYear: fromYearRef.current.value,
@@ -109,6 +109,8 @@ export const Indexes = () => {
         const mode = e.nativeEvent.submitter.name;
         
         setSearchMode(mode);
+        setHistory([""]);
+        setCurrentPageIndex(0);
         fetchData("", mode, sortConfig, currentFilters);
     };
 
@@ -120,7 +122,7 @@ export const Indexes = () => {
             const newHistory = [...history, newCursor];
             setHistory(newHistory);
             setCurrentPageIndex(prev => prev + 1);
-           fetchData("", searchMode, sortConfig, currentFilters);
+           fetchData(newCursor, searchMode, sortConfig, currentFilters);
         }
     };
 
